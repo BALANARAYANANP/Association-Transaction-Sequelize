@@ -5,6 +5,7 @@ const Childss = require('./models/chilld')
 const Profile = require('./models/profiles')
 const Skill = require('./models/skill');
 const router = require('./router/userRoutes');
+const ProfileSkills = require('./models/ParentSkill')
 
 
 const app = express()
@@ -25,7 +26,7 @@ Skill.belongsToMany(Parents, { through: 'ParentSkills' });
 
 (async () => {
   try {
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
     app.listen(3000, () => {
       console.log("Server is Running on Port 3000")
     })

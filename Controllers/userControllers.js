@@ -1,6 +1,7 @@
 const sequelize = require('../config/db');
 const Childss = require('../models/chilld');
 const Parents = require('../models/parent');
+const ParentSkill = require('../models/ParentSkill');
 const Profile = require('../models/profiles');
 const Skill = require('../models/skill');
 
@@ -37,13 +38,21 @@ const createParentAndChild = async (req, res) => {
             )
           );
         
+          for (const skill of skills) {
+            const ps = await ParentSkill.create({
+              parentId: parent.id,
+              skillId: skill.id
+            }, { transaction: t });
+          }
+          
 
         await t.commit(); 
+        
 
         res.status(200).send({
             message: 'All tables Create Succuessfully',
             parent,
-            child, profile , skills
+            child, profile , skills 
         });
     } catch (err) {
         await t.rollback(); 
